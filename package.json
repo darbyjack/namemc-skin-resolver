@@ -1,0 +1,21 @@
+{
+  "name": "namemc-skin-resolver",
+  "version": "1.0.0",
+  "description": "Obtain all Minecraft UUIDs using a skin",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Glare",
+  "type": "module",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "puppeteer": "^10.4.0",
+    "puppeteer-cluster": "^0.22.0",
+    "puppeteer-extra": "^3.2.3",
+    "puppeteer-extra-plugin-adblocker": "^2.12.0",
+    "puppeteer-extra-plugin-stealth": "^2.9.0"
+  }
+}
