@@ -9,6 +9,7 @@ puppeteer.use(adblock({blockTrackers: true}));
 const UA = "Mozilla/5.0 (X11; U; FreeBSD i386; en-US) AppleWebKit/532.0 (KHTML, like Gecko) Chrome/4.0.207.0 Safari/532.0";
 let cache = new Map();
 const fileData = fs.readFileSync('cache.json');
+const XPATH = "/html/body/main/div/div[1]/div[1]/div[2]/div[1]/div[3]/samp";
 
 function loadCache() {
     if (fileData.length === 0) {
@@ -64,7 +65,7 @@ const minimal_args = [
 
 async function lookupSkin(path) {
     return puppeteer.launch({
-        headless: false,
+        headless: true,
         args: minimal_args,
         userDataDir: './asset-cache',
         defaultViewport: {width: 200, height: 200}
@@ -104,9 +105,10 @@ async function lookupSkin(path) {
             if (cache.has(link)) {
                 uuids.push(cache.get(link));
             } else {
-                await page.goto(link);
+                await page.goto(link, {timeout: 0, waitUntil: 'networkidle0'});
                 try {
-                    let idElement = await page.$x("/html/body/main/div/div[1]/div[1]/div[2]/div[1]/div[3]/samp");
+                    await page.waitForXPath(XPATH);
+                    let idElement = await page.$x(XPATH);
                     const uuid = await page.evaluate(name => name.innerText, idElement[0]);
                     console.log(uuid);
                     uuids.push(uuid);
